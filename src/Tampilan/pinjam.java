@@ -1,0 +1,785 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
+ */
+package Tampilan;
+
+
+import java.awt.Dialog;
+import java.awt.Frame;
+import java.io.File;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+import java.sql.DriverManager;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.HashMap;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
+
+/**
+ *
+ * @author achmad-pc
+ */
+public class pinjam extends javax.swing.JDialog {
+    
+
+    /**
+     * Creates new form kembali
+     */
+    DefaultTableModel dtm;
+    PreparedStatement preparedStatement;
+    private Integer id;
+    Connection conec;
+    Statement state;
+    ResultSet res;
+    String database;
+    
+    public DefaultTableModel modelBuku = new  DefaultTableModel();
+    
+    public String dateChooser;
+    public String dateChooser1;
+
+    public pinjam() {
+        
+    }
+
+   public void dead(){
+       id_pinjam.setEditable(false);
+       kd_buku.setEditable(false);
+       j_buku.setEditable(false);
+   }
+    
+    public void clear(){
+        id_pinjam.setText("");
+        nama_pinjam.setText("");
+        kd_buku.setText("");
+        j_buku.setText("");
+        Date clear = null;
+        tgl_pinjam.setDate(clear);
+        tgl_kembali.setDate(clear);
+        total.setText("");
+        tablepinjam.clearSelection();
+    }
+    
+    public void data(){
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_perpustakaan", "root", "");
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select * from meminjam order by kode_pinjam DESC");
+            if(res.next()){
+                String kd = res.getString("kode_pinjam").substring(1);
+                String kode = "000" + (Integer.parseInt(kd)+1);
+                id_pinjam.setText("P"+kode);
+            }else{
+                id_pinjam.setText("P0001");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(pinjam.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(pinjam.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void tampilPinjam(){
+        modelBuku.setRowCount(0);
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_perpustakaan", "root", "");
+            Statement statement = connection.createStatement();
+            ResultSet res = statement.executeQuery("select * from meminjam");
+            String[] kolom = {"Kode Pinjam", "Nama Member", "Kode Buku", "Judul", "Tanggal Pinjam","Tanggal Kembali", "Total"};
+            modelBuku.setColumnIdentifiers(kolom);
+            while(res.next()){
+            Object[] data = new Object[7];
+            data[0] = res.getString("Kode_pinjam");
+            data[1] = res.getString("nama");
+            data[2] = res.getString("kd_buku");
+            data[3] = res.getString("judul");
+            data[4] = res.getString("tgl_pinjam");
+            data[5] = res.getString("tgl_kembali");
+            data[6] = res.getString("total");
+          
+            modelBuku.addRow(data);
+            
+            
+        }
+    }   catch (ClassNotFoundException ex) {
+            Logger.getLogger(pinjam.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(pinjam.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+        
+    public pinjam(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
+        initComponents();
+        setLocationRelativeTo(this);
+        tampilPinjam();
+        dead();
+        data();
+        tablepinjam.setModel(modelBuku);
+        
+        
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        kGradientPanel1 = new keeptoo.KGradientPanel();
+        id_pinjam = new javax.swing.JTextField();
+        kd_buku = new javax.swing.JTextField();
+        j_buku = new javax.swing.JTextField();
+        nama_pinjam = new javax.swing.JTextField();
+        total = new javax.swing.JTextField();
+        tgl_pinjam = new com.toedter.calendar.JDateChooser();
+        pinjam = new com.k33ptoo.components.KButton();
+        tgl_kembali = new com.toedter.calendar.JDateChooser();
+        caribuku = new javax.swing.JButton();
+        carimember = new javax.swing.JButton();
+        kGradientPanel2 = new keeptoo.KGradientPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablepinjam = new javax.swing.JTable();
+        hapus = new com.k33ptoo.components.KButton();
+        jButton1 = new javax.swing.JButton();
+        edit = new javax.swing.JButton();
+        cancel = new javax.swing.JButton();
+        FS = new javax.swing.JTextField();
+        Cari = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Form Peminjam");
+
+        jPanel1.setBackground(new java.awt.Color(188, 206, 251));
+
+        jPanel2.setBackground(new java.awt.Color(24, 119, 242));
+
+        jLabel1.setFont(new java.awt.Font("Microsoft New Tai Lue", 1, 30)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Form Peminjaman");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(17, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(11, 11, 11))
+        );
+
+        kGradientPanel1.setBackground(new java.awt.Color(188, 206, 251));
+        kGradientPanel1.setkEndColor(new java.awt.Color(255, 255, 255));
+        kGradientPanel1.setkStartColor(new java.awt.Color(255, 255, 255));
+
+        id_pinjam.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        id_pinjam.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Kode Pinjam", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial Black", 1, 13))); // NOI18N
+
+        kd_buku.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        kd_buku.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Kode Buku", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial Black", 1, 13))); // NOI18N
+        kd_buku.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                kd_bukuActionPerformed(evt);
+            }
+        });
+
+        j_buku.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        j_buku.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Judul Buku", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial Black", 1, 13))); // NOI18N
+
+        nama_pinjam.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        nama_pinjam.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nama Member", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial Black", 1, 13))); // NOI18N
+
+        total.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        total.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Total Buku", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial Black", 1, 13))); // NOI18N
+        total.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                totalActionPerformed(evt);
+            }
+        });
+
+        tgl_pinjam.setBackground(new java.awt.Color(255, 255, 255));
+        tgl_pinjam.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tanggal Pinjam", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial Black", 1, 13))); // NOI18N
+        tgl_pinjam.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                tgl_pinjamPropertyChange(evt);
+            }
+        });
+
+        pinjam.setText("PINJAM");
+        pinjam.setkBackGroundColor(new java.awt.Color(0, 164, 0));
+        pinjam.setkHoverForeGround(new java.awt.Color(0, 164, 0));
+        pinjam.setkHoverStartColor(new java.awt.Color(0, 164, 0));
+        pinjam.setkPressedColor(new java.awt.Color(255, 255, 255));
+        pinjam.setkSelectedColor(new java.awt.Color(0, 164, 0));
+        pinjam.setkStartColor(new java.awt.Color(0, 164, 0));
+        pinjam.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pinjamActionPerformed(evt);
+            }
+        });
+
+        tgl_kembali.setBackground(new java.awt.Color(255, 255, 255));
+        tgl_kembali.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tanggal Kembali", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial Black", 1, 13))); // NOI18N
+
+        caribuku.setBackground(new java.awt.Color(255, 255, 255));
+        caribuku.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/icons8-search-24.png"))); // NOI18N
+        caribuku.setBorder(null);
+        caribuku.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                caribukuActionPerformed(evt);
+            }
+        });
+
+        carimember.setBackground(new java.awt.Color(255, 255, 255));
+        carimember.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/icons8-search-24.png"))); // NOI18N
+        carimember.setBorder(null);
+        carimember.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                carimemberActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout kGradientPanel1Layout = new javax.swing.GroupLayout(kGradientPanel1);
+        kGradientPanel1.setLayout(kGradientPanel1Layout);
+        kGradientPanel1Layout.setHorizontalGroup(
+            kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, kGradientPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pinjam, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
+            .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(nama_pinjam)
+                    .addComponent(tgl_pinjam, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+                    .addComponent(j_buku)
+                    .addComponent(kd_buku)
+                    .addComponent(tgl_kembali, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(id_pinjam, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(caribuku, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+                    .addComponent(carimember, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(99, Short.MAX_VALUE))
+        );
+        kGradientPanel1Layout.setVerticalGroup(
+            kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(id_pinjam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(nama_pinjam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(carimember, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(kd_buku, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(caribuku, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(j_buku, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(tgl_pinjam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tgl_kembali, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pinjam, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
+        );
+
+        kGradientPanel2.setBackground(new java.awt.Color(188, 206, 251));
+        kGradientPanel2.setkEndColor(new java.awt.Color(255, 255, 255));
+        kGradientPanel2.setkStartColor(new java.awt.Color(255, 255, 255));
+
+        tablepinjam.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        tablepinjam.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablepinjamMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tablepinjam);
+
+        javax.swing.GroupLayout kGradientPanel2Layout = new javax.swing.GroupLayout(kGradientPanel2);
+        kGradientPanel2.setLayout(kGradientPanel2Layout);
+        kGradientPanel2Layout.setHorizontalGroup(
+            kGradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, kGradientPanel2Layout.createSequentialGroup()
+                .addContainerGap(17, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 594, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        kGradientPanel2Layout.setVerticalGroup(
+            kGradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, kGradientPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        hapus.setText("HAPUS");
+        hapus.setkEndColor(new java.awt.Color(237, 33, 58));
+        hapus.setkHoverEndColor(new java.awt.Color(147, 41, 30));
+        hapus.setkHoverForeGround(new java.awt.Color(147, 41, 30));
+        hapus.setkHoverStartColor(new java.awt.Color(237, 33, 58));
+        hapus.setkSelectedColor(new java.awt.Color(147, 41, 30));
+        hapus.setkStartColor(new java.awt.Color(237, 33, 58));
+        hapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hapusActionPerformed(evt);
+            }
+        });
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/icons8-receipt-32.png"))); // NOI18N
+        jButton1.setText("CETAK");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        edit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/icons8-edit-32.png"))); // NOI18N
+        edit.setText("EDIT");
+        edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editActionPerformed(evt);
+            }
+        });
+
+        cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/icons8-cancel-32.png"))); // NOI18N
+        cancel.setText("CANCEL");
+        cancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelActionPerformed(evt);
+            }
+        });
+
+        FS.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        FS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FSActionPerformed(evt);
+            }
+        });
+
+        Cari.setText("Search");
+        Cari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CariActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(kGradientPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(cancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(47, 47, 47)
+                                .addComponent(hapus, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(43, 43, 43))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(kGradientPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 621, Short.MAX_VALUE)
+                                .addContainerGap())))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(263, 263, 263)
+                        .addComponent(FS, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Cari, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(kGradientPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 457, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(Cari)
+                            .addComponent(FS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(kGradientPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(edit, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+                    .addComponent(cancel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(hapus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(19, 19, 19))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void kd_bukuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kd_bukuActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_kd_bukuActionPerformed
+
+    private void totalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_totalActionPerformed
+
+    private void tgl_pinjamPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tgl_pinjamPropertyChange
+        // TODO add your handling code here:
+        try{
+            if(tgl_pinjam.getDate() != null){
+                String pattern = "yyyy-mm-dd";
+                SimpleDateFormat format = new SimpleDateFormat(pattern);
+                dateChooser = String.valueOf(format.format(tgl_pinjam.getDate()));
+            }
+        }catch(Exception e){
+        }
+    }//GEN-LAST:event_tgl_pinjamPropertyChange
+
+    private void pinjamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pinjamActionPerformed
+        // TODO add your handling code here:
+        String pattern = "yyyy-MM-dd";
+        SimpleDateFormat format = new SimpleDateFormat(pattern);
+        dateChooser = String.valueOf(format.format(tgl_pinjam.getDate()));
+        dateChooser1 = String.valueOf(format.format(tgl_kembali.getDate()));
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_perpustakaan", "root", "");
+            Statement smt = null;
+            String sql = "insert into meminjam (kode_pinjam,nama,kd_buku,judul,tgl_pinjam,tgl_kembali,total) values ('"+id_pinjam.getText()+"','"+nama_pinjam.getText()+"','"+kd_buku.getText()+"','"+j_buku.getText()+"','"+dateChooser+"','"+dateChooser1+"','"+total.getText()+"')";
+            smt = connection.createStatement();
+            PreparedStatement p2=(PreparedStatement) connection.prepareStatement(sql);
+            p2.executeUpdate();
+            tampilPinjam();
+            clear();
+            data();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(pinjam.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(pinjam.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }//GEN-LAST:event_pinjamActionPerformed
+
+    private void caribukuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caribukuActionPerformed
+        // TODO add your handling code here:
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        Cari cari = new Cari(frame, true, "daftarBuku");
+        cari.setVisible(true);
+        
+    }//GEN-LAST:event_caribukuActionPerformed
+
+    private void carimemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carimemberActionPerformed
+        // TODO add your handling code here:
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        Cari cari = new Cari(frame, true, "daftarMember");
+        cari.setVisible(true);
+    }//GEN-LAST:event_carimemberActionPerformed
+
+    private void hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hapusActionPerformed
+        // TODO add your handling code here:
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_perpustakaan", "root", "");
+            Statement smt = null;
+            String sql = "Delete from meminjam "+ "Where kode_pinjam= '"+id_pinjam.getText()+"' ";
+            smt = connection.createStatement();
+            PreparedStatement p2=(PreparedStatement) connection.prepareStatement(sql);
+            p2.executeUpdate();
+            tampilPinjam();
+            clear();
+            data();
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(pinjam.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(pinjam.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    }//GEN-LAST:event_hapusActionPerformed
+
+    private void tablepinjamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablepinjamMouseClicked
+        // TODO add your handling code here:
+        int id = tablepinjam.getSelectedRow();
+        id_pinjam.setText(tablepinjam.getValueAt(id, 0).toString());
+        nama_pinjam.setText(tablepinjam.getValueAt(id, 1).toString());
+        kd_buku.setText(tablepinjam.getValueAt(id, 2).toString());
+        j_buku.setText(tablepinjam.getValueAt(id, 3).toString());
+        Date format = null;
+        Date format1 = null;
+        try {
+            format = new SimpleDateFormat("yyyy-MM-dd").parse((String)tablepinjam.getValueAt(tablepinjam.getSelectedRow(), 4).toString());
+            format1 = new SimpleDateFormat("yyyy-MM-dd").parse((String)tablepinjam.getValueAt(tablepinjam.getSelectedRow(), 5).toString());
+        } catch (ParseException ex) {
+            Logger.getLogger(pengembalian.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        tgl_pinjam.setDate(format);
+        tgl_kembali.setDate(format1);
+        total.setText(tablepinjam.getValueAt(id, 6).toString());
+        
+        
+    }//GEN-LAST:event_tablepinjamMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        try{
+            
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_perpustakaan", "root", "");
+            Statement statement = connection.createStatement();
+            String file = "src/laporan/bukti_pinjam.jrxml";
+            HashMap param =  new HashMap();
+            ResultSet res = statement.executeQuery("select * from pengembalian");
+            param.put("kode_pinjam", String.valueOf(id_pinjam.getText()));            
+            File file1 = new File(file);
+            JasperDesign jd = JRXmlLoader.load(file);
+            JasperReport jr = JasperCompileManager.compileReport(jd);
+            JasperPrint jp = JasperFillManager.fillReport(jr, param, connection);
+            JasperViewer.viewReport(jp, false);
+            JasperViewer jasperViewer = new JasperViewer(jp, false);
+            JDialog dialog = new JDialog();
+            dialog.setContentPane(jasperViewer.getContentPane());
+            dialog.setSize(jasperViewer.getSize());
+            dialog.setTitle("Struk Peminjam");
+            dialog.setAlwaysOnTop(true);
+            dialog.setModalityType(Dialog.ModalityType.MODELESS);
+            dialog.setModal(true);
+            dialog.setLocationRelativeTo(null);
+            dialog.setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(pinjam.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(pinjam.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JRException ex) {
+            Logger.getLogger(pinjam.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
+        // TODO add your handling code here:
+        String pattern = "yyyy-MM-dd";
+        SimpleDateFormat format = new SimpleDateFormat(pattern);
+        dateChooser = String.valueOf(format.format(tgl_pinjam.getDate()));
+        dateChooser1 = String.valueOf(format.format(tgl_kembali.getDate()));
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_perpustakaan", "root", "");
+            preparedStatement = connection.prepareStatement("update meminjam set kode_pinjam = ?, nama = ?, kd_buku = ?,judul = ?,tgl_pinjam = ?,tgl_kembali = ?,total = ? where kode_pinjam = '"+id_pinjam.getText()+"' ");
+            preparedStatement.setString(1, id_pinjam.getText());
+            preparedStatement.setString(2, nama_pinjam.getText());
+            preparedStatement.setString(3, kd_buku.getText());
+            preparedStatement.setString(4, j_buku.getText());
+            preparedStatement.setString(5, dateChooser);
+            preparedStatement.setString(6, dateChooser1);
+            preparedStatement.setInt(7, Integer.parseInt(total.getText()));
+            preparedStatement.execute();
+            connection.close();
+            tampilPinjam();
+            clear();
+            data();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(pinjam.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(pinjam.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_editActionPerformed
+
+    private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
+        // TODO add your handling code here:
+        tablepinjam.clearSelection();
+        clear();
+        data();
+    }//GEN-LAST:event_cancelActionPerformed
+
+    private void CariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CariActionPerformed
+        // TODO add your handling code here:
+        String cari = FS.getText();
+        if(FS.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, state);
+            FS.requestFocus();
+        }
+        else{
+            DefaultTableModel DTM = new DefaultTableModel();
+            DTM.addColumn("id_pinjam");
+            DTM.addColumn("nama");
+            DTM.addColumn("kd_buku");
+            DTM.addColumn("judul");
+            DTM.addColumn("tgl_pinjam");
+            DTM.addColumn("tgl_kembali");
+            DTM.addColumn("total");
+        try {
+            String driver = "com.mysql.jdbc.Driver";
+            String url="jdbc:mysql://localhost:3306/db_perpustakaan";
+            String user = "root";
+            String pass= "";
+            
+            DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+            conec = DriverManager.getConnection(url,user,pass);
+            String sql = "select * from meminjam where nama like '%"+cari+"%'";
+            Statement stat = conec.createStatement();
+            ResultSet rs = stat.executeQuery(sql);
+            while (rs.next()) {
+                DTM.addRow(new Object []{rs.getString(1),rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7)});
+            }
+            tablepinjam.setModel(DTM);
+            
+            nama_pinjam.setText("");
+            j_buku.setText("");
+            total.setText("");
+            FS.setEnabled(true);
+            FS.requestFocus();
+        }   catch (SQLException ex) {
+                Logger.getLogger(pinjam.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_CariActionPerformed
+
+    private void FSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FSActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_FSActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(pinjam.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(pinjam.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(pinjam.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(pinjam.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                pinjam dialog = new pinjam(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Cari;
+    private javax.swing.JTextField FS;
+    private javax.swing.JButton cancel;
+    private javax.swing.JButton caribuku;
+    private javax.swing.JButton carimember;
+    private javax.swing.JButton edit;
+    private com.k33ptoo.components.KButton hapus;
+    private javax.swing.JTextField id_pinjam;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    public static javax.swing.JTextField j_buku;
+    private keeptoo.KGradientPanel kGradientPanel1;
+    private keeptoo.KGradientPanel kGradientPanel2;
+    public static javax.swing.JTextField kd_buku;
+    public static javax.swing.JTextField nama_pinjam;
+    private com.k33ptoo.components.KButton pinjam;
+    private javax.swing.JTable tablepinjam;
+    private com.toedter.calendar.JDateChooser tgl_kembali;
+    private com.toedter.calendar.JDateChooser tgl_pinjam;
+    private javax.swing.JTextField total;
+    // End of variables declaration//GEN-END:variables
+}

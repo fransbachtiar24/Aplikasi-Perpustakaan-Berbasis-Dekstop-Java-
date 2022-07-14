@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="252" pageHeight="432" columnWidth="212" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="febdb183-8ac8-4e99-b512-762b9e2d20e4">
+	<property name="ireport.zoom" value="1.9487171000000014"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="144"/>
+	<parameter name="kode_pinjam" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[select * from meminjam where kode_pinjam = $P{kode_pinjam}]]>
+	</queryString>
+	<field name="kode_pinjam" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nama" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="kd_buku" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="judul" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tgl_pinjam" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tgl_kembali" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="total" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="67" splitType="Stretch">
+			<staticText>
+				<reportElement x="28" y="0" width="166" height="57" uuid="30bc46d9-8a92-4dfe-a508-0e6b5d7ebea4"/>
+				<textElement>
+					<font fontName="Arial Black" size="30"/>
+				</textElement>
+				<text><![CDATA[LazyBook]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="63" width="212" height="1" uuid="b30ebd1e-aacf-4984-8e38-1a14552212bf"/>
+			</line>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement x="60" y="47" width="100" height="20" uuid="5e89bb0a-1249-4f3c-ae49-f968ec54398d"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="47" width="60" height="20" uuid="45ae00e0-474d-4649-8a97-bf254136fb3c"/>
+				<text><![CDATA[Tanggal    :]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<textField>
+				<reportElement x="81" y="0" width="100" height="20" uuid="3212fb23-90f3-4d50-849c-5cae1b48b819"/>
+				<textFieldExpression><![CDATA[$F{kode_pinjam}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="81" y="15" width="100" height="20" uuid="ebdcacd5-090d-4141-b226-3182dd2336dd"/>
+				<textFieldExpression><![CDATA[$F{nama}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="15" width="81" height="20" uuid="08509272-94b6-407b-a524-08ab61ddc6bc"/>
+				<text><![CDATA[Nama                 :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="717a0650-c06b-4429-aeba-8fd96c134ba3"/>
+				<text><![CDATA[Kode Pinjam      :]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="167" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="60" height="20" uuid="47f2ab7d-73e9-426f-9750-ceef52d660f1"/>
+				<text><![CDATA[Kode Buku]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="70" y="0" width="52" height="20" uuid="e372b40d-b766-40e0-8454-7dff0d747c10"/>
+				<text><![CDATA[Judul Buku]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="163" y="0" width="59" height="20" uuid="d152f3c3-5d13-43b1-b042-25cd756a5bab"/>
+				<text><![CDATA[Total Buku]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="20" width="60" height="20" uuid="5fea10a7-27cf-47eb-a1b3-215e7a430363"/>
+				<textFieldExpression><![CDATA[$F{kd_buku}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="20" width="75" height="20" uuid="adfd77cc-cc2b-43ce-ab53-84eedb2dad2b"/>
+				<textFieldExpression><![CDATA[$F{judul}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="181" y="20" width="31" height="20" uuid="c567354b-2d08-46af-838a-146388ff17a7"/>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="74" width="100" height="20" uuid="03c300c6-b05d-4301-96b8-8afab9482b7f"/>
+				<text><![CDATA[Tanggal Pinjam     :]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="57" width="212" height="1" uuid="c95874fb-f9ac-4bcc-b280-36a34caeddea"/>
+			</line>
+			<textField>
+				<reportElement x="100" y="74" width="112" height="20" uuid="5b471b5c-e2a8-4af7-98a7-8e1d25e459e0"/>
+				<textFieldExpression><![CDATA[$F{tgl_pinjam}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="94" width="100" height="20" uuid="7ec7fc4e-418d-47fc-a5b0-0a67d6e04905"/>
+				<text><![CDATA[Tanggal Kembali   :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="94" width="100" height="20" uuid="d6b083c3-b25c-4df4-99f8-d2aef0b1f0e8"/>
+				<textFieldExpression><![CDATA[$F{tgl_kembali}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="-3" width="212" height="1" uuid="0e097e4b-4ef6-4524-a47c-afdaecdaf278"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="114" width="100" height="20" uuid="6cba80a7-2400-4732-81ba-58de0bf812ee"/>
+				<text><![CDATA[Catatan                  : ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="114" width="100" height="39" uuid="8e29d0a2-7f48-4ce5-824a-f66579e40ba8"/>
+				<text><![CDATA[Denda Keterlambatan Rp 10.000 /Hari]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="149" width="212" height="1" uuid="b4e3c753-f85f-40c4-adc0-64c986447656"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<staticText>
+				<reportElement x="19" y="6" width="181" height="33" uuid="ea06bb1f-5729-4d99-9f7a-6aaed390d863"/>
+				<textElement>
+					<font fontName="Arial Black" size="20"/>
+				</textElement>
+				<text><![CDATA[TERIMA KASIH]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
